@@ -2,6 +2,8 @@
 :root {
     --header-link-color: #0c0c0c;
     --header-link-contrast-color: #0c0c0c;
+    --header-bg: rgba(255, 255, 255, 0.27);
+    --header-border-color: rgba(0, 0, 0, 0.08);
     --mobile-sidebar-bg: rgba(238, 238, 238, 0.95);
     --mobile-sidebar-link-color: #333333;
     --mobile-sidebar-close-color: #333333;
@@ -10,7 +12,9 @@
 :root[data-theme="light"] {
     --header-link-color: #0c0c0c;
     --header-link-contrast-color: #0c0c0c;
-    --mobile-sidebar-bg: rgba(238, 238, 238, 0.95);
+    --header-bg: rgba(255, 255, 255, 0.27);
+    --header-border-color: rgba(0, 0, 0, 0.08);
+    --mobile-sidebar-bg: rgba(238, 238, 238, 0.7);
     --mobile-sidebar-link-color: #333333;
     --mobile-sidebar-close-color: #333333;
 }
@@ -18,6 +22,8 @@
 :root[data-theme="dark"] {
     --header-link-color: #f1f1f1;
     --header-link-contrast-color: #f1f1f1;
+    --header-bg: rgba(12, 12, 12, 0.34);
+    --header-border-color: rgba(255, 255, 255, 0.08);
     --mobile-sidebar-bg: rgba(18, 18, 18, 0.78);
     --mobile-sidebar-link-color: #f1f1f1;
     --mobile-sidebar-close-color: #f1f1f1;
@@ -26,9 +32,10 @@
 header{
     position: fixed;
     top: 0;
-    background-color: #ffffff00;
-    backdrop-filter: blur(10px);
+    background-color: var(--header-bg);
+    backdrop-filter: blur(17px);
     box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--header-border-color);
     width: 100%;
     z-index: 1000;
 }
@@ -93,7 +100,7 @@ header.header-dark .mobile-menu-toggle{
     align-items: center;
     padding: 2rem;
     /* box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); */
-    box-shadow: -1px 1px 5px rgba(0, 0, 0, 1.694);
+    /* box-shadow: -1px 1px 5px rgba(0, 0, 0, 1.694); */
     transition: all 0.3s ease;
 }
 

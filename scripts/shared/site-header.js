@@ -5,6 +5,12 @@ class HeaderComponent {
         // 현재 페이지 감지
         const currentPath = window.location.pathname;
         const currentPage = currentPath.split('/').pop() || 'index.html';
+        const currentParams = new URLSearchParams(window.location.search);
+        const currentTags = (currentParams.get('tags') || currentParams.get('tag') || '')
+            .split(',')
+            .map(tag => tag.trim().toLowerCase())
+            .filter(Boolean);
+        const includesArtworkTag = currentTags.includes('artwork');
         console.log('Current page detected:', currentPage); // 디버그용
 
         this.currentPage = currentPage;
@@ -13,7 +19,7 @@ class HeaderComponent {
         this.navigationItems = [
             { href: '/index.html?modal=about', text: 'ABOUT', type: 'modal', modal: 'about' },
             { href: '/index.html?modal=skills', text: 'SKILLS', type: 'modal', modal: 'skills' },
-            { href: 'artwork.html', text: 'ARTWORK', type: 'link' },
+            { href: 'blog.html?tags=artwork', text: 'ARTWORK', type: 'link' },
             { href: 'blog.html', text: 'BLOG', type: 'link' },
             { href: '/index.html?modal=contact', text: 'CONTACT', type: 'modal', modal: 'contact' }
         ];
@@ -22,9 +28,9 @@ class HeaderComponent {
         this.navigationItems.forEach(item => {
             if (item.text === 'PROJECTS' && (currentPage === 'projects.html' || currentPage.includes('projects'))) {
                 item.active = true;
-            } else if (item.text === 'ARTWORK' && (currentPage === 'artwork.html' || currentPage.includes('artwork'))) {
+            } else if (item.text === 'ARTWORK' && (currentPage === 'artwork.html' || includesArtworkTag)) {
                 item.active = true;
-            } else if (item.text === 'BLOG' && (currentPage === 'blog.html' || currentPage.includes('blog'))) {
+            } else if (item.text === 'BLOG' && (currentPage === 'blog.html' || currentPage.includes('blog')) && !includesArtworkTag) {
                 item.active = true;
             }
         });

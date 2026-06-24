@@ -6,8 +6,46 @@ class PostApp {
         this.allPosts = [];
         this.postId = null;
         this.isLoading = false;
+        this.fromPage = getUrlParameter('from') || 'blog';
+        this.returnUrl = getUrlParameter('return') || '';
+        this.backTarget = this.resolveBackTarget();
         
         this.init();
+    }
+
+    resolveBackTarget() {
+        if (this.returnUrl) {
+            try {
+                const decodedUrl = decodeURIComponent(this.returnUrl);
+                if (decodedUrl.startsWith('blog.html')) {
+                    return decodedUrl;
+                }
+            } catch (error) {
+                console.warn('Invalid return URL:', error);
+            }
+        }
+
+        if (this.fromPage === 'artwork') {
+            return 'blog.html?tags=artwork';
+        }
+
+        return 'blog.html';
+    }
+
+    navigateBack() {
+        window.location.href = this.backTarget;
+    }
+
+    applyBackNavigationTargets() {
+        const backButtons = document.querySelectorAll('.back-btn');
+        backButtons.forEach(button => {
+            button.setAttribute('href', this.backTarget);
+        });
+
+        const errorBackButtons = document.querySelectorAll('.error-actions a');
+        errorBackButtons.forEach(button => {
+            button.setAttribute('href', this.backTarget);
+        });
     }
 
     /**
@@ -22,7 +60,8 @@ class PostApp {
             return;
         }
 
-                this.setupEventListeners();
+            this.setupEventListeners();
+            this.applyBackNavigationTargets();
         this.showLoading();
         
         try {
@@ -166,7 +205,7 @@ class PostApp {
         const postTags = document.getElementById('postTags');
         if (postTags && this.post.tags) {
             const tagsHTML = this.post.tags.map(tag => 
-                `<a href="blog.html?tag=${encodeURIComponent(tag)}" class="post-tag">${tag}</a>`
+                `<a href="blog.html?tags=${encodeURIComponent(tag)}" class="post-tag">${tag}</a>`
             ).join('');
             postTags.innerHTML = tagsHTML;
         }
@@ -623,15 +662,14 @@ class PostApp {
     setupEventListeners() {
         // Browser back/forward buttons
         window.addEventListener('popstate', () => {
-            // If user navigates back, go to blog page
-            window.location.href = 'blog.html';
+            this.navigateBack();
         });
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             // Escape: Go back to blog
             if (e.key === 'Escape') {
-                window.location.href = 'blog.html';
+                this.navigateBack();
             }
             
             // Arrow keys for navigation
@@ -888,7 +926,9 @@ class PostApp {
 
 // Global function for related post navigation
 function navigateToPost(postId) {
-    window.location.href = `post.html?id=${postId}`;
+    const backTarget = postApp ? postApp.backTarget : 'blog.html';
+    const fromPage = postApp ? postApp.fromPage : 'blog';
+    window.location.href = `post.html?id=${postId}&from=${encodeURIComponent(fromPage)}&return=${encodeURIComponent(backTarget)}`;
 }
 
 // Initialize post app
@@ -969,8 +1009,12 @@ async function deleteCurrentPost() {
         
         alert('포스트가 삭제되었습니다.');
         
-        // 블로그 페이지로 이동
-        window.location.href = 'blog.html';
+        // 목록 페이지로 이동
+        if (postApp) {
+            postApp.navigateBack();
+        } else {
+            window.location.href = 'blog.html';
+        }
         
     } catch (error) {
         console.error('❌ Delete error:', error);

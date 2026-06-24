@@ -6,10 +6,91 @@ class BlogApp {
         this.allPosts = [];
         this.currentPage = 1;
         this.postsPerPage = CONFIG.POSTS_PER_PAGE;
-        this.currentTag = getUrlParameter('tag') || '';
+        this.selectedTags = this.parseSelectedTagsFromUrl();
+        this.searchQuery = this.parseSearchQueryFromUrl();
+        this.currentView = this.parseViewMode();
         this.isLoading = false;
+        this.boundOutsideClickHandler = null;
         
         this.init();
+    }
+
+    parseSelectedTagsFromUrl() {
+        const tagsParam = getUrlParameter('tags') || getUrlParameter('tag') || '';
+        if (!tagsParam) return [];
+
+        const decoded = decodeURIComponent(tagsParam);
+        const tags = decoded
+            .split(',')
+            .map(tag => tag.trim())
+            .filter(tag => tag.length > 0);
+
+        return [...new Set(tags)];
+    }
+
+    parseViewMode() {
+        const urlView = getUrlParameter('view');
+        const storedView = localStorage.getItem('blog_view_mode');
+        const view = urlView || storedView || 'list';
+
+        return this.isValidViewMode(view) ? view : 'list';
+    }
+
+    parseSearchQueryFromUrl() {
+        return (getUrlParameter('q') || '').trim();
+    }
+
+    isValidViewMode(view) {
+        return ['grid', 'list', 'post'].includes(view);
+    }
+
+    updateUrlState() {
+        const url = new URL(window.location);
+
+        if (this.selectedTags.length > 0) {
+            url.searchParams.set('tags', this.selectedTags.join(','));
+        } else {
+            url.searchParams.delete('tags');
+            url.searchParams.delete('tag');
+        }
+
+        if (this.currentView !== 'list') {
+            url.searchParams.set('view', this.currentView);
+        } else {
+            url.searchParams.delete('view');
+        }
+
+        if (this.searchQuery) {
+            url.searchParams.set('q', this.searchQuery);
+        } else {
+            url.searchParams.delete('q');
+        }
+
+        window.history.replaceState({}, '', url);
+    }
+
+    matchesSelectedTags(post) {
+        if (this.selectedTags.length === 0) return true;
+
+        const postTags = Array.isArray(post.tags)
+            ? post.tags.map(tag => String(tag).toLowerCase())
+            : [];
+
+        return this.selectedTags.every(tag => postTags.includes(tag.toLowerCase()));
+    }
+
+    matchesSearchQuery(post) {
+        if (!this.searchQuery) return true;
+
+        const q = this.searchQuery.toLowerCase();
+        const searchableText = [
+            post.title || '',
+            post.excerpt || '',
+            post.content || '',
+            Array.isArray(post.tags) ? post.tags.join(' ') : ''
+        ].join(' ').toLowerCase();
+
+        return searchableText.includes(q);
     }
 
     /**
@@ -86,9 +167,14 @@ class BlogApp {
         }
         // 로그인한 경우 모든 포스트 표시 (private 포함)
 
-        // Filter by tag
-        if (this.currentTag) {
-            filteredPosts = window.SheetsAPI.filterByTag(filteredPosts, this.currentTag);
+        // Filter by selected tags (AND)
+        if (this.selectedTags.length > 0) {
+            filteredPosts = filteredPosts.filter(post => this.matchesSelectedTags(post));
+        }
+
+        // Filter by search query
+        if (this.searchQuery) {
+            filteredPosts = filteredPosts.filter(post => this.matchesSearchQuery(post));
         }
 
         this.posts = filteredPosts;
@@ -101,10 +187,19 @@ class BlogApp {
     setupEventListeners() {
         // Browser back/forward buttons
         window.addEventListener('popstate', (e) => {
-            this.currentTag = getUrlParameter('tag') || '';
+            this.selectedTags = this.parseSelectedTagsFromUrl();
+            this.searchQuery = this.parseSearchQueryFromUrl();
+            this.currentView = this.parseViewMode();
             this.filterPosts();
             this.renderPage();
         });
+
+        const searchInput = document.getElementById('blogSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.handleSearch(e.target.value);
+            });
+        }
     }
 
     /**
@@ -112,10 +207,37 @@ class BlogApp {
      * @param {string} tag - Tag to filter by
      */
     handleTagFilter(tag) {
-        this.currentTag = tag;
-        setUrlParameter('tag', tag);
+        if (!tag) {
+            this.selectedTags = [];
+        } else {
+            const exists = this.selectedTags.some(selected => selected.toLowerCase() === tag.toLowerCase());
+            this.selectedTags = exists
+                ? this.selectedTags.filter(selected => selected.toLowerCase() !== tag.toLowerCase())
+                : [...this.selectedTags, tag];
+        }
+
+        this.updateUrlState();
         this.filterPosts();
         this.renderPage();
+    }
+
+    handleViewModeChange(viewMode) {
+        if (!this.isValidViewMode(viewMode)) return;
+
+        this.currentView = viewMode;
+        localStorage.setItem('blog_view_mode', viewMode);
+        this.updateUrlState();
+        this.renderPage();
+    }
+
+    handleSearch(value) {
+        this.searchQuery = (value || '').trim();
+        this.currentPage = 1;
+        this.updateUrlState();
+        this.filterPosts();
+        this.renderPosts();
+        this.renderPagination();
+        this.updatePageTitle();
     }
 
     /**
@@ -123,10 +245,85 @@ class BlogApp {
      */
     renderPage() {
         this.hideLoading();
+        this.renderSearchControl();
+        this.renderViewModeControls();
         this.renderTagFilters();
         this.renderPosts();
         this.renderPagination();
         this.updatePageTitle();
+    }
+
+    renderSearchControl() {
+        const searchInput = document.getElementById('blogSearchInput');
+        if (!searchInput) return;
+
+        if (searchInput.value !== this.searchQuery) {
+            searchInput.value = this.searchQuery;
+        }
+    }
+
+    renderViewModeControls() {
+        const viewModeControls = document.getElementById('viewModeControls');
+        if (!viewModeControls) return;
+
+        const controls = [
+            {
+                key: 'grid',
+                title: '그리드 보기',
+                icon: `
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="3" width="4" height="4"></rect>
+                        <rect x="10" y="3" width="4" height="4"></rect>
+                        <rect x="17" y="3" width="4" height="4"></rect>
+                        <rect x="3" y="10" width="4" height="4"></rect>
+                        <rect x="10" y="10" width="4" height="4"></rect>
+                        <rect x="17" y="10" width="4" height="4"></rect>
+                        <rect x="3" y="17" width="4" height="4"></rect>
+                        <rect x="10" y="17" width="4" height="4"></rect>
+                        <rect x="17" y="17" width="4" height="4"></rect>
+                    </svg>
+                `
+            },
+            {
+                key: 'list',
+                title: '리스트 보기',
+                icon: `
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="4" rx="1"></rect>
+                        <rect x="3" y="10" width="18" height="4" rx="1"></rect>
+                        <rect x="3" y="16" width="18" height="4" rx="1"></rect>
+                    </svg>
+                `
+            },
+            {
+                key: 'post',
+                title: '게시물 보기',
+                icon: `
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="11" width="18" height="2" rx="1"></rect>
+                    </svg>
+                `
+            }
+        ];
+
+        viewModeControls.innerHTML = controls.map(control => `
+            <button
+                type="button"
+                class="view-mode-btn ${this.currentView === control.key ? 'active' : ''}"
+                data-view-mode="${control.key}"
+                aria-label="${control.title}"
+                title="${control.title}"
+            >
+                ${control.icon}
+            </button>
+        `).join('');
+
+        viewModeControls.onclick = (e) => {
+            const btn = e.target.closest('.view-mode-btn');
+            if (!btn) return;
+
+            this.handleViewModeChange(btn.dataset.viewMode);
+        };
     }
 
     /**
@@ -161,33 +358,54 @@ class BlogApp {
             return a.localeCompare(b, 'ko', { numeric: true, caseFirst: 'lower' });
         });
 
-        let filtersHTML = `
-            <button class="tag-filter ${!this.currentTag ? 'active' : ''}" data-tag="">
-                전체 (${publishedPosts.length})
-            </button>
-        `;
+        const featuredTags = ['artwork', 'blog'];
+        const featuredSet = new Set(featuredTags.map(tag => tag.toLowerCase()));
+        const otherTags = sortedTags.filter(tag => !featuredSet.has(tag.toLowerCase()));
 
-        sortedTags.forEach(tag => {
+        const featuredHTML = featuredTags.map(tag => {
+            const count = Object.keys(tagCounts).find(key => key.toLowerCase() === tag.toLowerCase());
+            const tagName = count || tag;
+            const tagCount = tagCounts[tagName] || 0;
+            const isActive = this.selectedTags.some(selected => selected.toLowerCase() === tag.toLowerCase());
+
+            return `
+                <button class="tag-filter ${isActive ? 'active' : ''}" data-tag="${tagName}">
+                    ${tagName} (${tagCount})
+                </button>
+            `;
+        }).join('');
+
+        const othersHTML = otherTags.map(tag => {
             const count = tagCounts[tag] || 0;
-            const isActive = this.currentTag === tag;
-            
-            filtersHTML += `
+            const isActive = this.selectedTags.some(selected => selected.toLowerCase() === tag.toLowerCase());
+
+            return `
                 <button class="tag-filter ${isActive ? 'active' : ''}" data-tag="${tag}">
                     ${tag} (${count})
                 </button>
             `;
-        });
+        }).join('');
+
+        let filtersHTML = `
+            <div class="tag-filter-row tag-filter-row-primary">${featuredHTML}</div>
+            <div class="tag-filter-row tag-filter-row-secondary">
+                <button class="tag-filter ${this.selectedTags.length === 0 ? 'active' : ''}" data-tag="" data-reset="true">
+                    all (${publishedPosts.length})
+                </button>
+                ${othersHTML}
+            </div>
+        `;
 
         tagFiltersContainer.innerHTML = filtersHTML;
 
         // Add event listeners
-        tagFiltersContainer.addEventListener('click', (e) => {
+        tagFiltersContainer.onclick = (e) => {
             const tagButton = e.target.closest('.tag-filter');
             if (tagButton) {
                 const tag = tagButton.dataset.tag;
                 this.handleTagFilter(tag);
             }
-        });
+        };
     }
 
     /**
@@ -232,8 +450,20 @@ class BlogApp {
         const endIndex = startIndex + this.postsPerPage;
         const currentPosts = this.posts.slice(startIndex, endIndex);
 
+        postsContainer.className = `posts-grid view-${this.currentView}`;
+
         // Render posts
-        const postsHTML = currentPosts.map(post => this.renderPostCard(post)).join('');
+        const postsHTML = currentPosts.map(post => {
+            if (this.currentView === 'grid') {
+                return this.renderPostGridCard(post);
+            }
+
+            if (this.currentView === 'post') {
+                return this.renderPostSimpleItem(post);
+            }
+
+            return this.renderPostCard(post);
+        }).join('');
         postsContainer.innerHTML = postsHTML;
 
         // Add post click handlers
@@ -247,7 +477,7 @@ class BlogApp {
      * Setup post click handlers
      */
     setupPostClickHandlers() {
-        const postCards = document.querySelectorAll('.post-card');
+        const postCards = document.querySelectorAll('.post-card, .post-grid-card, .post-simple-item');
         postCards.forEach(card => {
             card.addEventListener('click', (e) => {
                 const postId = card.dataset.postId;
@@ -265,14 +495,18 @@ class BlogApp {
         });
 
         // 액션 메뉴 외부 클릭 시 메뉴 닫기
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.post-actions')) {
-                const activeMenus = document.querySelectorAll('.post-actions-menu.active');
-                const activeActions = document.querySelectorAll('.post-actions.active');
-                activeMenus.forEach(menu => menu.classList.remove('active'));
-                activeActions.forEach(action => action.classList.remove('active'));
-            }
-        });
+        if (!this.boundOutsideClickHandler) {
+            this.boundOutsideClickHandler = (e) => {
+                if (!e.target.closest('.post-actions')) {
+                    const activeMenus = document.querySelectorAll('.post-actions-menu.active');
+                    const activeActions = document.querySelectorAll('.post-actions.active');
+                    activeMenus.forEach(menu => menu.classList.remove('active'));
+                    activeActions.forEach(action => action.classList.remove('active'));
+                }
+            };
+
+            document.addEventListener('click', this.boundOutsideClickHandler);
+        }
     }
 
     /**
@@ -287,8 +521,8 @@ class BlogApp {
                 showToast('포스트를 찾을 수 없습니다', 'error');
                 return;
             }
-            // Navigate to post.html with post ID
-            window.location.href = `post.html?id=${encodeURIComponent(postId)}`;
+            const returnUrl = `blog.html${window.location.search || ''}`;
+            window.location.href = `post.html?id=${encodeURIComponent(postId)}&from=blog&return=${encodeURIComponent(returnUrl)}`;
             
         } catch (error) {
             console.error('❌ Error opening post:', error);
@@ -309,7 +543,7 @@ class BlogApp {
         // post.tags가 배열인지 확인하고 안전하게 처리
         const tags = Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : [];
         const tagsHTML = tags.map(tag => 
-            `<a href="?tag=${encodeURIComponent(tag)}" class="post-tag" onclick="event.stopPropagation()">${tag}</a>`
+            `<a href="blog.html?tags=${encodeURIComponent(tag)}" class="post-tag" onclick="event.stopPropagation()">${tag}</a>`
         ).join('');
 
         // 비공개 포스트 상태 표시
@@ -394,6 +628,48 @@ class BlogApp {
                 `;
             }
         }
+
+    renderPostGridCard(post) {
+        const hasThumbnail = post.thumbnail && post.thumbnail.trim() !== '';
+        const tags = Array.isArray(post.tags) && post.tags.length > 0 ? post.tags : [];
+        const tagsHTML = tags.map(tag =>
+            `<a href="blog.html?tags=${encodeURIComponent(tag)}" class="post-tag" onclick="event.stopPropagation()">${tag}</a>`
+        ).join('');
+
+        const thumbnailUrl = hasThumbnail ? convertGoogleDriveUrl(post.thumbnail) : '';
+        const fallbackUrls = hasThumbnail ? getGoogleDriveFallbackUrls(post.thumbnail) : [];
+
+        return `
+            <article class="post-grid-card ${!hasThumbnail ? 'no-image' : ''}" data-post-id="${post.id}">
+                ${hasThumbnail ? `
+                    <div class="post-grid-image">
+                        <img src="${thumbnailUrl}" alt="${post.title}" loading="lazy"
+                             data-fallback-urls='${JSON.stringify(fallbackUrls)}'
+                             data-current-index="0"
+                             onerror="tryFallbackImage(this);">
+                        <div class="post-grid-image-overlay"></div>
+                    </div>
+                ` : ''}
+                <div class="post-grid-content">
+                    <div class="post-grid-meta">
+                        <span class="post-grid-date">${formatDate(post.date)}</span>
+                    </div>
+                    <h2 class="post-grid-title">${post.title}</h2>
+                    <p class="post-grid-excerpt">${post.excerpt || '내용 미리보기가 없습니다.'}</p>
+                    <div class="post-grid-tags">${tagsHTML}</div>
+                </div>
+            </article>
+        `;
+    }
+
+    renderPostSimpleItem(post) {
+        return `
+            <article class="post-simple-item" data-post-id="${post.id}">
+                <span class="post-simple-date">${formatDate(post.date)}</span>
+                <h2 class="post-simple-title">${post.title}</h2>
+            </article>
+        `;
+    }
 
     /**
      * Setup lazy loading for images
@@ -553,15 +829,19 @@ class BlogApp {
 
         let message = '포스트가 없습니다.';
         
-        if (this.currentTag) {
-            message = `"${this.currentTag}" 태그의 포스트가 없습니다.`;
+        if (this.selectedTags.length > 0 && this.searchQuery) {
+            message = `"${this.selectedTags.join(', ')}" + "${this.searchQuery}" 조건의 포스트가 없습니다.`;
+        } else if (this.selectedTags.length > 0) {
+            message = `"${this.selectedTags.join(', ')}" 태그 조합의 포스트가 없습니다.`;
+        } else if (this.searchQuery) {
+            message = `"${this.searchQuery}" 검색 결과가 없습니다.`;
         }
 
         postsContainer.innerHTML = `
             <div class="empty-state">
                 <h3>${message}</h3>
                 <p>다른 검색어나 태그를 시도해보세요.</p>
-                ${this.currentTag ? 
+                ${this.selectedTags.length > 0 ? 
                     '<button class="btn btn-secondary" onclick="app.clearFilters()">필터 초기화</button>' : 
                     '<a href="editor.html" class="btn btn-primary">첫 번째 포스트 작성하기</a>'
                 }
@@ -573,12 +853,9 @@ class BlogApp {
      * Clear all filters
      */
     clearFilters() {
-        this.currentTag = '';
-        
-        // Update URL
-        const url = new URL(window.location);
-        url.searchParams.delete('tag');
-        window.history.replaceState({}, '', url);
+        this.selectedTags = [];
+        this.searchQuery = '';
+        this.updateUrlState();
         
         // Re-filter and render
         this.filterPosts();
@@ -591,8 +868,12 @@ class BlogApp {
     updatePageTitle() {
         let title = CONFIG.BLOG_TITLE;
         
-        if (this.currentTag) {
-            title = `${this.currentTag} - ${CONFIG.BLOG_TITLE}`;
+        if (this.selectedTags.length > 0 && this.searchQuery) {
+            title = `${this.searchQuery} | ${this.selectedTags.join(', ')} - ${CONFIG.BLOG_TITLE}`;
+        } else if (this.selectedTags.length > 0) {
+            title = `${this.selectedTags.join(', ')} - ${CONFIG.BLOG_TITLE}`;
+        } else if (this.searchQuery) {
+            title = `${this.searchQuery} - ${CONFIG.BLOG_TITLE}`;
         }
         
         document.title = title;
@@ -736,7 +1017,7 @@ document.addEventListener('keydown', (e) => {
     
     // Escape: Clear filters
     if (e.key === 'Escape') {
-        if (app && app.currentTag) {
+        if (app && app.selectedTags.length > 0) {
             app.clearFilters();
         }
     }

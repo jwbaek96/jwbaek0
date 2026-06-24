@@ -1,131 +1,33 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JW.BAEK - Artwork</title>
-    <link rel="shortcut icon" href="../assets/Vector.png">
-    <link rel="icon" href="../assets/Vector.png" sizes="96x96" type="image/png">
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="JW.BAEK의 아트워크 - 창의적인 예술 작업과 실험적인 프로젝트를 소개합니다">
-    <meta name="keywords" content="아트워크, 렌티큘러아트, 인터랙티브미디어, 디지털아트, 실험예술, 창작작업">
-    <meta name="author" content="JW.BAEK">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="JW.BAEK - Artwork">
-    <meta property="og:description" content="창의적인 예술 작업과 실험적인 프로젝트를 소개합니다">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://jwbaek96.github.io/blog1/artwork.html">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../styles/core/base.css">
-    <link rel="stylesheet" href="../styles/shared/header.css">
-    <link rel="stylesheet" href="../styles/pages/home.css">
-    <link rel="stylesheet" href="../styles/pages/blog.css">
-    <link rel="stylesheet" href="../styles/shared/footer.css">
-    <link rel="stylesheet" href="../styles/shared/floating-actions.css">
-    <link rel="stylesheet" href="../styles/pages/artwork.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0; url=blog.html?tags=artwork">
+    <script>
+        (function () {
+            const current = new URL(window.location.href);
+            const blogUrl = new URL('blog.html', current.href);
 
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/0470599ade.js" crossorigin="anonymous"></script>
+            const existingTags = (current.searchParams.get('tags') || current.searchParams.get('tag') || '')
+                .split(',')
+                .map(tag => tag.trim())
+                .filter(Boolean);
 
-    <!-- Icon meta js -->
-    <script src="../scripts/shared/head-meta.js"></script>
-</head>
-<body class="blog-page">
-    <!-- Header will be inserted by site-header.js -->
-    <div id="header-placeholder"></div>
-    
-    <!-- Mobile Sidebar will be inserted by site-header.js -->
-    <div id="sidebar-placeholder"></div>
+            const mergedTags = Array.from(new Set(['artwork', ...existingTags]));
+            blogUrl.searchParams.set('tags', mergedTags.join(','));
 
-    <!-- Main Content -->
-    <main class="main">
-        <div class="container">
-            <!-- Page Header -->
-            <div class="page-header">
-                <!-- <h1 class="page-title">Articles</h1> -->
-                <!-- <p class="page-description">전문적인 인사이트와 창작 과정에 대한 깊이 있는 글들을 만나보세요</p> -->
-            </div>
-
-            <div class="blog-layout">
-                <!-- Left Column: Posts -->
-                <div class="blog-posts-column">
-                    <!-- <div class="posts-header">
-                        <h3 class="blog-posts-title">Articles</h3>
-                    </div> -->
-                    
-                    <!-- Article Tags Section -->
-                    <div class="article-tags-section">
-                        <div class="tag-filters-sidebar" id="tagFilters">
-                            <!-- 태그 필터들이 동적으로 추가됩니다 -->
-                        </div>
-                    </div>
-                    
-                    <!-- Posts Section -->
-                    <section class="posts">
-                        <div id="postsContainer" class="posts-grid">
-                            <!-- 포스트들이 동적으로 로드됩니다 -->
-                        </div>
-                        <div id="loadingSpinner" class="loading">
-                            <div class="spinner"></div>
-                        </div>
-                        <div id="errorMessage" class="error-message" style="display: none;">
-                            <p>아트워크를 불러오는데 실패했습니다. 나중에 다시 시도해주세요.</p>
-                        </div>
-                        <div id="emptyMessage" class="empty-message" style="display: none; text-align: center;">
-                            <!-- <h3>아트워크가 없습니다</h3>
-                            <p>아직 업로드된 아트워크가 없습니다. 곧 흥미로운 작품들로 찾아뵙겠습니다!</p> -->
-                        </div>
-                    </section>
-
-                    <!-- Pagination -->
-                    <div class="pagination" id="pagination">
-                        <!-- 페이지네이션이 동적으로 추가됩니다 -->
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer will be inserted by site-footer.js -->
-    <div id="footer-placeholder"></div>
-
-    <!-- Floating Actions are automatically loaded by floating-actions.js -->
-
-    <!-- Scripts -->
-    <script>        
-        // 헤더 색상 변경 (스크롤 시)
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            const sidebar = document.getElementById('mobileSidebar');
-            
-            if (window.scrollY > 100) {
-                // 스크롤이 내려갔을 때 - 다크 모드
-                header.classList.add('header-dark');
-                sidebar.classList.add('dark');
-            } else {
-                // 페이지 상단일 때 - 화이트 모드  
-                header.classList.remove('header-dark');
-                sidebar.classList.remove('dark');
+            const view = current.searchParams.get('view');
+            if (view) {
+                blogUrl.searchParams.set('view', view);
             }
-        });
+
+            window.location.replace(`${blogUrl.pathname}${blogUrl.search}${current.hash}`);
+        })();
     </script>
-    <!-- Header Component -->
-    <script src="../scripts/shared/site-header.js"></script>
-    <script src="../scripts/shared/site-footer.js"></script>
-    
-    <script src="../scripts/core/config.js"></script>
-    <script src="../scripts/core/auth.js"></script>
-    <script src="../scripts/shared/floating-actions.js"></script>
-    <script src="../scripts/core/utils.js"></script>
-    <script src="../scripts/core/sheets.js"></script>
-    <script src="../scripts/pages/artwork-page.js"></script>
+</head>
+<body>
+    <p><a href="blog.html?tags=artwork">블로그 아트워크 보기로 이동</a></p>
 </body>
 </html>

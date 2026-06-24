@@ -70,6 +70,7 @@
     --text-secondary: #6c757d;
     --text-muted: #adb5bd;
     --border-color: #dee2e6;
+    --scrollbar-bg: #c1c1c1 transparent;
 }
 
 :root[data-theme="dark"] {
@@ -80,6 +81,7 @@
     --text-secondary: #cccccc;
     --text-muted: #999999;
     --border-color: #404040;
+    --scrollbar-bg: #575757 transparent;
 }
 /* Reset */
 html{

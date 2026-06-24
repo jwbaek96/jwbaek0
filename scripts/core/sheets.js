@@ -111,19 +111,40 @@ class SheetsAPI {
     }
 
     /**
-     * Fetch posts from posts.json (GitHub Actions generated)
+     * Fetch posts with live source priority.
+     * Priority: Apps Script/CSV (Google Sheet) -> local posts.json fallback.
      * @returns {Promise<Array>} Array of posts
      */
     async fetchPosts() {
         try {
-            // posts.json에서 직접 데이터 가져오기
+            await this.waitForConfig();
+
+            const appsScriptUrl = await this.getAppsScriptUrl();
+            if (appsScriptUrl && appsScriptUrl !== 'null') {
+                return this.fetchPostsFromAppsScript();
+            }
+
+            return this.fetchPostsFromCSV();
+        } catch (error) {
+            console.error('❌ Error fetching live posts:', error);
+            console.warn('⚠️ Falling back to local posts.json');
+            return this.fetchPostsFromLocalJson();
+        }
+    }
+
+    /**
+     * Fallback: Fetch posts from local posts.json (GitHub Actions generated)
+     * @returns {Promise<Array>} Array of posts
+     */
+    async fetchPostsFromLocalJson() {
+        try {
             const timestamp = Date.now();
             const response = await fetch(`/content/data/posts.json?t=${timestamp}`);
-            
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             const postsPayload = await response.json();
             const posts = Array.isArray(postsPayload)
                 ? postsPayload
@@ -134,14 +155,11 @@ class SheetsAPI {
             if (!Array.isArray(posts) || posts.length === 0) {
                 throw new Error('Invalid posts data format');
             }
-            
-            // ID 순서로 정렬 (내림차순 - 최신 포스트 먼저)
+
             return posts.sort((a, b) => parseInt(b.id) - parseInt(a.id));
-            
         } catch (error) {
-            console.error('❌ Error fetching posts from posts.json:', error);
-            console.warn('⚠️ Falling back to Apps Script/CSV method');
-            return this.fetchPostsFromAppsScript();
+            console.error('❌ Error fetching posts from local posts.json:', error);
+            return [];
         }
     }
 

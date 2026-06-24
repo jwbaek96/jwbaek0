@@ -57,6 +57,14 @@ const FloatingActions = {
             actionsHTML += '</div>';
         }
 
+        const createPostHTML = `
+            <a class="floating-btn floating-create-post-btn" id="floatingCreatePostBtn" href="${this.getEditorUrl()}" title="게시물 추가">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </a>
+        `;
+
         const authorNoteHTML = config.showAuthorNote ? `
             <div class="floating-note-panel" id="floatingAuthorNote">
                 <div class="note-header">
@@ -74,7 +82,7 @@ const FloatingActions = {
             </div>
         ` : '';
 
-        return actionsHTML + authorNoteHTML;
+        return actionsHTML + createPostHTML + authorNoteHTML;
     },
 
     init: function(options = {}) {
@@ -83,6 +91,7 @@ const FloatingActions = {
         const htmlContent = this.createHTML(options);
         document.body.insertAdjacentHTML('beforeend', htmlContent);
         this.setupEventListeners();
+        this.updateCreatePostButtonVisibility();
         this.updateThemeButtonTitle();
     },
 
@@ -94,6 +103,16 @@ const FloatingActions = {
                     notePanel.classList.remove('active');
                 }
             }
+        });
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'admin_token' || e.key === 'admin_expires') {
+                this.refresh();
+            }
+        });
+
+        window.addEventListener('focus', () => {
+            this.updateCreatePostButtonVisibility();
         });
 
         this.setupScrollToTopVisibility();
@@ -208,12 +227,26 @@ const FloatingActions = {
 
     refresh: function() {
         const existingStack = document.getElementById('floatingActionStack');
+        const existingCreatePost = document.getElementById('floatingCreatePostBtn');
         const existingAuthorNote = document.getElementById('floatingAuthorNote');
 
         if (existingStack) existingStack.remove();
+        if (existingCreatePost) existingCreatePost.remove();
         if (existingAuthorNote) existingAuthorNote.remove();
 
         this.init();
+    },
+
+    getEditorUrl: function() {
+        const path = window.location.pathname;
+        return path.includes('/pages/') ? 'editor.html' : 'pages/editor.html';
+    },
+
+    updateCreatePostButtonVisibility: function() {
+        const createPostBtn = document.getElementById('floatingCreatePostBtn');
+        if (!createPostBtn) return;
+
+        createPostBtn.style.display = 'inline-flex';
     },
 
     scrollToTop: function() {
