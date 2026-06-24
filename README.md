@@ -47,7 +47,7 @@ cd blog1
 
 1. [Google Apps Script](https://script.google.com) 접속
 2. 새 프로젝트 생성: "Blog Upload API"
-3. `apps-script/Code.gs` 내용을 복사하여 붙여넣기
+3. `integrations/apps-script/Code.gs` 내용을 복사하여 붙여넣기
 4. `BLOG_FOLDER_ID`에 폴더 ID 입력
 5. 배포 → 새 배포 → 웹 앱 → 전체 액세스
 6. 배포 URL 복사
@@ -67,7 +67,7 @@ id | title | date | author | thumbnail | content | tags | images | videos | stat
 
 ### 5. 설정 파일 업데이트
 
-`js/config.js` 파일에서 다음 값들을 업데이트:
+`scripts/core/config.js` 파일에서 다음 값들을 업데이트:
 
 ```javascript
 const CONFIG = {
@@ -127,7 +127,7 @@ npx serve .
 
 ### 테마 색상 변경
 
-`css/main.css` 파일의 CSS 변수 수정:
+`styles/core/main.css` 파일의 CSS 변수 수정:
 
 ```css
 :root {
@@ -150,7 +150,7 @@ npx serve .
 
 ### 댓글 시스템 설정
 
-`js/config.js`에서 Utterances 설정:
+`scripts/core/config.js`에서 Utterances 설정:
 
 ```javascript
 UTTERANCES: {

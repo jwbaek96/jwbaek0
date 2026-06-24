@@ -2,127 +2,13 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JW.BAEK - Blog</title>
-    <link rel="shortcut icon" href="./assets/Vector.png">
-    <link rel="icon" href="./assets/Vector.png" sizes="96x96" type="image/png">
-    <link rel="manifest" href="./manifest.json">
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#ffffff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="JW.BAEK Blog">
-    <link rel="apple-touch-icon" href="./assets/Vector.png">
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="JW.BAEK의 블로그 - 창작 과정과 예술적 탐구를 공유합니다">
-    <meta name="keywords" content="블로그, 아티스트, 웹개발, 인터랙티브미디어, 렌티큘러아트">
-    <meta name="author" content="JW.BAEK">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="JW.BAEK - Blog">
-    <meta property="og:description" content="창작 과정과 예술적 탐구를 공유합니다">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://jwbaek96.github.io/blog1/">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/floating-actions.css">
-    <link rel="stylesheet" href="css/blog.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/0470599ade.js" crossorigin="anonymous"></script>
-
-    <!-- Icon meta js -->
-    <script src="js/head-meta.js"></script>
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0; url=pages/blog.html">
+    <script>
+        window.location.replace(`pages/blog.html${window.location.search}${window.location.hash}`);
+    </script>
 </head>
-<body class="blog-page">
-    <!-- Header will be inserted by header-component.js -->
-    <div id="header-placeholder"></div>
-    
-    <!-- Mobile Sidebar will be inserted by header-component.js -->
-    <div id="sidebar-placeholder"></div>
-
-    <!-- Main Content -->
-    <main class="main">
-        <div class="container">
-            <div class="blog-layout">
-                <!-- Single Column Layout -->
-                <div class="blog-content">
-                    <!-- <h3 class="blog-posts-title">Posts</h3> -->
-                    
-                    <!-- Tags Section - Horizontal Scroll -->
-                    <div class="tags-horizontal-section">
-                        <div class="tag-filters-horizontal" id="tagFilters">
-                            <!-- 태그 필터들이 동적으로 추가됩니다 -->
-                        </div>
-                    </div>
-                    
-                    <!-- Posts Section -->
-                    <section class="posts">
-                        <div id="postsContainer" class="posts-grid">
-                            <!-- 포스트들이 동적으로 로드됩니다 -->
-                        </div>
-                        <div id="loadingSpinner" class="loading">
-                            <div class="spinner"></div>
-                        </div>
-                        <div id="errorMessage" class="error-message" style="display: none;">
-                            <p>포스트를 불러오는데 실패했습니다. 나중에 다시 시도해주세요.</p>
-                        </div>
-                    </section>
-
-                    <!-- Pagination -->
-                    <div class="pagination" id="pagination">
-                        <!-- 페이지네이션이 동적으로 추가됩니다 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="mailto:jwbaek96@gmail.com">
-                    <i class="fa-regular fa-envelope"></i>
-                </a>
-                <a href="https://www.instagram.com/jw.baek.96/" target="_blank" rel="noopener">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="blog.html">
-                    <span>Blog</span>
-                </a>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>OA Design Studio</p>
-                <p>&copy; 2025 <a href="/login.html" class="tologinpage">JW.BAEK</a>. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Actions are automatically loaded by floating-actions.js -->
-
-    <!-- Scripts -->
-    
-    <!-- Header Component -->
-    <script src="js/header-component.js"></script>
-    
-    <!-- Supabase SDK -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    
-    <script src="js/config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/floating-actions.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/sheets.js"></script>
-    <script src="js/blog.js"></script>
+<body>
+    <p><a href="pages/blog.html">블로그 페이지로 이동</a></p>
 </body>
 </html>

@@ -7,13 +7,13 @@ Allow: /
 Sitemap: https://blog1-mu-two.vercel.app/sitemap.xml
 
 # Disallow caching and config directories
-Disallow: /js/config.js
+Disallow: /scripts/core/config.js
 Disallow: /.git/
-Disallow: /apps-script/
+Disallow: /integrations/apps-script/
 
 # Allow all other content
-Allow: /css/
-Allow: /js/
+Allow: /styles/
+Allow: /scripts/
 Allow: /images/
 Allow: *.html
 Allow: *.css

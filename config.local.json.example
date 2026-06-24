@@ -1,8 +1,7 @@
 {
   "_comment": "이 파일을 config.local.json으로 복사하고 실제 값으로 수정하세요",
-  "APPS_SCRIPT_URL": "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
+  "GOOGLE_APPS_SCRIPT_URL": "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
   "UPLOAD_API_URL": "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
-  "LOCAL_ADMIN_KEY": "YOUR_ADMIN_PASSWORD_HERE",
   "GOOGLE_DRIVE_FOLDER_ID": "YOUR_GOOGLE_DRIVE_FOLDER_ID_HERE",
   "GOOGLE_DRIVE_API_KEY": "YOUR_GOOGLE_DRIVE_API_KEY_HERE",
   "GOOGLE_CLIENT_ID": "YOUR_GOOGLE_CLIENT_ID_HERE"

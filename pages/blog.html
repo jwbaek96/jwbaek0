@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JW.BAEK - Blog</title>
+    <link rel="shortcut icon" href="../assets/Vector.png">
+    <link rel="icon" href="../assets/Vector.png" sizes="96x96" type="image/png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="JW.BAEK의 블로그 - 창작 과정과 예술적 탐구를 공유합니다">
+    <meta name="keywords" content="블로그, 아티스트, 웹개발, 인터랙티브미디어, 렌티큘러아트">
+    <meta name="author" content="JW.BAEK">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="JW.BAEK - Blog">
+    <meta property="og:description" content="창작 과정과 예술적 탐구를 공유합니다">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jwbaek96.github.io/blog1/">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../styles/core/base.css">
+    <link rel="stylesheet" href="../styles/shared/header.css">
+    <link rel="stylesheet" href="../styles/shared/footer.css">
+    <link rel="stylesheet" href="../styles/shared/floating-actions.css">
+    <link rel="stylesheet" href="../styles/pages/blog.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/0470599ade.js" crossorigin="anonymous"></script>
+
+    <!-- Icon meta js -->
+    <script src="../scripts/shared/head-meta.js"></script>
+</head>
+<body class="blog-page">
+    <!-- Header will be inserted by header-component.js -->
+    <div id="header-placeholder"></div>
+    
+    <!-- Mobile Sidebar will be inserted by header-component.js -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="blog-layout">
+                <!-- Single Column Layout -->
+                <div class="blog-content">
+                    <!-- <h3 class="blog-posts-title">Posts</h3> -->
+                    
+                    <!-- Tags Section - Horizontal Scroll -->
+                    <div class="tags-horizontal-section">
+                        <div class="tag-filters-horizontal" id="tagFilters">
+                            <!-- 태그 필터들이 동적으로 추가됩니다 -->
+                        </div>
+                    </div>
+                    
+                    <!-- Posts Section -->
+                    <section class="posts">
+                        <div id="postsContainer" class="posts-grid">
+                            <!-- 포스트들이 동적으로 로드됩니다 -->
+                        </div>
+                        <div id="loadingSpinner" class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                        <div id="errorMessage" class="error-message" style="display: none;">
+                            <p>포스트를 불러오는데 실패했습니다. 나중에 다시 시도해주세요.</p>
+                        </div>
+                    </section>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <!-- 페이지네이션이 동적으로 추가됩니다 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer will be inserted by site-footer.js -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Floating Actions are automatically loaded by floating-actions.js -->
+
+    <!-- Scripts -->
+    
+    <!-- Header Component -->
+    <script src="../scripts/shared/site-header.js"></script>
+    <script src="../scripts/shared/site-footer.js"></script>
+    
+    <script src="../scripts/core/config.js"></script>
+    <script src="../scripts/core/auth.js"></script>
+    <script src="../scripts/shared/floating-actions.js"></script>
+    <script src="../scripts/core/utils.js"></script>
+    <script src="../scripts/core/sheets.js"></script>
+    <script src="../scripts/pages/blog-page.js"></script>
+</body>
+</html>

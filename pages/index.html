@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JW.BAEK - Web Designer & Artist</title>
+    <link rel="icon" href="../favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Web Designer & Artist - 창의적이고 혁신적인 디자인 솔루션을 제공합니다">
+    <meta name="keywords" content="웹사이트제작, 웹디자인, 아티스트, 렌티큘러아트, 인터랙티브미디어">
+    <meta name="author" content="JW.BAEk">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="JW.BAEK - Web Designer & Artist">
+    <meta property="og:description" content="창의적이고 혁신적인 디자인 솔루션을 제공합니다">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jwbaek96.github.io/blog1/">
+    <!-- Icon -->
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../styles/core/base.css">
+    <link rel="stylesheet" href="../styles/shared/header.css">
+    
+    <link rel="stylesheet" href="../styles/pages/home.css">
+    <link rel="stylesheet" href="../styles/shared/footer.css">
+    <link rel="stylesheet" href="../styles/shared/floating-actions.css">
+    <link rel="stylesheet" href="../styles/pages/home-popup.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/0470599ade.js" crossorigin="anonymous"></script>
+
+    <!-- Icon meta js -->
+    <script src="../scripts/shared/head-meta.js"></script>
+
+</head>
+<body>
+    <!-- Header will be inserted by header-component.js -->
+    <div id="header-placeholder"></div>
+    
+    <!-- Mobile Sidebar will be inserted by header-component.js -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-landing">
+        <div class="container">
+            <div class="hero-content">
+                <h1>JW.BAEK</h1>
+                <p class="hero-subtitle">Web Developer & Artist</p>
+            </div>
+        </div>
+        
+        <!-- Auto-scrolling Notice Banner -->
+        <!-- <div class="notice-banner">
+            <div class="notice-content">
+                <span class="notice-text">🔥밴드 <strong>베이루트 택시</strong> 콘서트 VJing으로 참여합니다. 많은 관심 바랍니다!🔥 ⌛<strong>11.04 8PM</strong>📍홍대 <strong>공상온도</strong>🎫예매는 <strong>멜론티켓</strong> • [OAD]오에이디자인스튜디오 웹사이트 제작중</span>
+                <span class="notice-text">🔥밴드 <strong>베이루트 택시</strong> 콘서트 VJing으로 참여합니다. 많은 관심 바랍니다!🔥 ⌛<strong>11.04 8PM</strong>📍홍대 <strong>공상온도</strong>🎫예매는 <strong>멜론티켓</strong> • [OAD]오에이디자인스튜디오 웹사이트 제작중</span>
+            </div>
+        </div> -->
+    </section>
+
+    <div class="home-modal" id="aboutModal" hidden>
+        <div class="home-modal-backdrop" data-modal-close></div>
+        <div class="home-modal-dialog home-modal-about" role="dialog" aria-modal="true" aria-labelledby="aboutModalTitle">
+            <button class="home-modal-close" type="button" data-modal-close aria-label="About 닫기">&times;</button>
+            <div class="home-modal-header">
+                <p class="home-modal-kicker">ABOUT</p>
+                <h2 class="home-modal-title" id="aboutModalTitle">This is JW.BAEK</h2>
+            </div>
+            <div class="home-modal-body">
+                <div class="about-grid">
+                    <div class="about-image">
+                        <img src="../assets/profile2.png" alt="JW.BAEK Profile">
+                    </div>
+                    <div class="about-text">
+                        <p>Lenticular Art | Touchdesigner | Unreal Engine | IDM | Ambient | Web Development | PPT Design</p>
+                        <br>
+                        <p>Lenticular Art부터 Touchdesigner, Unreal Engine을 활용한 몰입형 경험 디자인, 그리고 IDM, Ambient 사운드스케이프 창조, Web Development, PPT Design에 이르기까지, 다양한 영역을 넘나들며 새로운 가치를 창출합니다.</p>
+                        <br>
+                        <p>또한,  이 다채로운 도구와 언어를 통해 물리적 공간과 디지털 영역을 아우르는 독창적인 결과물을 만들어냅니다. 시각 예술, 사운드, 인터랙티브 미디어를 융합하여 독특한 경험을 디자인합니다.</p>
+                        <br>
+                        <p>다양한 분야들을 자유롭게 넘나들며, 정적인 이미지부터 실시간 인터랙티브, 그리고 청각적 경험과 비즈니스 커뮤니케이션 등 전방위적인 창작 활동을 펼칩니다.</p>
+                        <br>
+                        <p>_작가 백종훈</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-modal" id="skillsModal" hidden>
+        <div class="home-modal-backdrop" data-modal-close></div>
+        <div class="home-modal-dialog home-modal-skills" role="dialog" aria-modal="true" aria-labelledby="skillsModalTitle">
+            <button class="home-modal-close" type="button" data-modal-close aria-label="Skills 닫기">&times;</button>
+            <div class="home-modal-header">
+                <p class="home-modal-kicker">SKILLS</p>
+                <h2 class="home-modal-title" id="skillsModalTitle">Tools & Workflow</h2>
+            </div>
+            <div class="home-modal-body">
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/touchdesigner.jpg" alt="TouchDesigner" />
+                        </div>
+                        <span class="skill-name">TouchDesigner</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/unreal.png" alt="Unreal Engine" />
+                        </div>
+                        <span class="skill-name">Unreal Engine</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/protools.png" alt="Pro Tools" />
+                        </div>
+                        <span class="skill-name">Pro Tools</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/cubase.png" alt="Cubase" />
+                        </div>
+                        <span class="skill-name">Cubase</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/vscode.svg" alt="VS Code" />
+                        </div>
+                        <span class="skill-name">VS Code</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/html.svg" alt="HTML" />
+                        </div>
+                        <span class="skill-name">HTML</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/css.svg" alt="CSS" />
+                        </div>
+                        <span class="skill-name">CSS</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/javascript.svg" alt="JavaScript" />
+                        </div>
+                        <span class="skill-name">JavaScript</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/figma.svg" alt="Figma" />
+                        </div>
+                        <span class="skill-name">Figma</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <img src="../assets/icons/powerpoint.svg" alt="PowerPoint" />
+                        </div>
+                        <span class="skill-name">PowerPoint</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Latest Blog Posts Section -->
+    <!-- <section id="latest-blog" class="latest-blog-section">
+        <div class="container">
+            <div class="section-header">
+                <a href="blog.html" class="recent-posts-link">
+                    <h2>Recent Posts</h2>
+                </a>
+            </div>
+            
+            <div class="blog-posts-grid" id="latestBlogPosts">
+                <div class="blog-loading">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Gallery Section -->
+    <!-- <section id="exhibition" class="gallery-section">
+        <div class="container">
+            <div class="gallery-header">
+                <a href="artwork.html" class="recent-artwork-link">
+                    <h2 class="gallery-title">Recent Artwork</h2>
+                </a>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="lenticular">
+                    <div class="item-image">
+                        <div class="image-placeholder">
+                            <img src="assets/2025 강서청년예술인전_20250913-20250920.png" alt="Lenticular Art #1" srcset="">
+                        </div>
+                    </div>
+                    <div class="item-info">
+                        <h3>2025 강서청년예술인전<br>《구류;예술인의 흐름》</h3>
+                        <p>Lenticular Art × Interactive Media</p>
+                        <span class="date">2025.9.13 (토) - 2025.9.20 (토)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <div class="home-modal" id="contactModal" hidden>
+        <div class="home-modal-backdrop" data-modal-close></div>
+        <div class="home-modal-dialog home-modal-contact" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+            <button class="home-modal-close" type="button" data-modal-close aria-label="Contact 닫기">&times;</button>
+            <div class="home-modal-header">
+                <p class="home-modal-kicker">CONTACT</p>
+                <h2 class="home-modal-title" id="contactModalTitle">Let&apos;s work together</h2>
+            </div>
+            <div class="home-modal-body">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2>Contact</h2>
+                        <div class="contact-item">
+                            <p><span>Email :&nbsp;</span>jwbaek96@gmail.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <p><span>Location :&nbsp;</span>Seoul, South Korea</p>
+                        </div>
+                        <!-- <div class="contact-social">
+                            <h4>Social Networks</h4>
+                            <div class="social-links">
+                                <a href="https://www.instagram.com/jw.baek.96/" class="social-link" target="_blank" rel="noopener">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div> -->
+                    </div>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" placeholder="Your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" id="email" name="email" placeholder="Your email address" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Write something..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will be inserted by site-footer.js -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Floating Actions are automatically loaded by floating-actions.js -->
+
+    <!-- Scripts -->
+    <script>
+        // Contact Form Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(form);
+                    const name = formData.get('name');
+                    const email = formData.get('email');
+                    const message = formData.get('message');
+                    
+                    if (!name || !email || !message) {
+                        alert('모든 필드를 입력해주세요.');
+                        return;
+                    }
+                    
+                    // 이메일 유효성 검사
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('올바른 이메일 주소를 입력해주세요.');
+                        return;
+                    }
+                    
+                    // 버튼 상태 변경
+                    submitBtn.textContent = 'Sending...';
+                    submitBtn.disabled = true;
+                    
+                    // 메일 클라이언트로 연결
+                    const subject = encodeURIComponent(`Portfolio Inquiry - ${name}`);
+                    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+                    const mailtoLink = `mailto:jwbaek96@gmail.com?subject=${subject}&body=${body}`;
+                    
+                    window.location.href = mailtoLink;
+                    
+                    // 성공 메시지
+                    setTimeout(() => {
+                        submitBtn.textContent = 'Message Sent!';
+                        submitBtn.style.background = '#00b894';
+                        submitBtn.disabled = false;
+                        
+                        setTimeout(() => {
+                            submitBtn.textContent = 'Send Message';
+                            submitBtn.style.background = '#2d3436';
+                            form.reset();
+                        }, 2000);
+                    }, 500);
+                });
+            }
+        });
+
+
+    </script>
+    
+    <!-- Header Component -->
+    <script src="../scripts/shared/site-header.js"></script>
+    <script src="../scripts/shared/site-footer.js"></script>
+    
+    <script src="../scripts/core/config.js"></script>
+    <script src="../scripts/core/auth.js"></script>
+    <script src="../scripts/core/utils.js"></script>
+    <script src="../scripts/core/sheets.js"></script>
+    <script src="../scripts/pages/home-posts.js"></script>
+    <script src="../scripts/pages/home-modals.js"></script>
+    <script src="../scripts/shared/floating-actions.js"></script>
+</body>
+</html>
