@@ -241,15 +241,13 @@ const FloatingActions = {
     applyTheme: function(theme, save = true) {
         const root = document.documentElement;
 
-        if (theme === 'dark') {
-            root.setAttribute('data-theme', 'dark');
-        } else {
-            root.removeAttribute('data-theme');
-            theme = 'light';
-        }
+        const normalizedTheme = theme === 'dark' ? 'dark' : 'light';
+        // Keep explicit theme on the root so OS-level prefers-color-scheme rules
+        // do not override manual light/dark selection.
+        root.setAttribute('data-theme', normalizedTheme);
 
         if (save) {
-            localStorage.setItem(this.themeKey, theme);
+            localStorage.setItem(this.themeKey, normalizedTheme);
         }
 
         this.updateThemeButtonTitle();

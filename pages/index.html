@@ -21,8 +21,7 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../styles/core/base.css">
-    <link rel="stylesheet" href="../styles/shared/header.css">
-    
+
     <link rel="stylesheet" href="../styles/pages/home.css">
     <link rel="stylesheet" href="../styles/shared/footer.css">
     <link rel="stylesheet" href="../styles/shared/floating-actions.css">
@@ -42,18 +41,21 @@
 
 </head>
 <body>
-    <!-- Header will be inserted by header-component.js -->
-    <div id="header-placeholder"></div>
-    
-    <!-- Mobile Sidebar will be inserted by header-component.js -->
-    <div id="sidebar-placeholder"></div>
-
     <!-- Hero Section -->
     <section id="home" class="hero-landing">
         <div class="container">
             <div class="hero-content">
                 <h1>JW.BAEK</h1>
-                <p class="hero-subtitle">Web Developer & Artist</p>
+                <p class="hero-subtitle">Developer | Artist | Philosopher</p>
+            </div>
+            <div class="hero-menu-placeholder">
+                <nav class="hero-menu" aria-label="Home menu">
+                    <a href="/index.html?modal=about" data-modal-target="about">ABOUT</a>
+                    <a href="/index.html?modal=skills" data-modal-target="skills">SKILLS</a>
+                    <a href="artwork.html">ARTWORK</a>
+                    <a href="blog.html">BLOG</a>
+                    <a href="/index.html?modal=contact" data-modal-target="contact">CONTACT</a>
+                </nav>
             </div>
         </div>
         
@@ -170,49 +172,6 @@
         </div>
     </div>
 
-    <!-- Latest Blog Posts Section -->
-    <!-- <section id="latest-blog" class="latest-blog-section">
-        <div class="container">
-            <div class="section-header">
-                <a href="blog.html" class="recent-posts-link">
-                    <h2>Recent Posts</h2>
-                </a>
-            </div>
-            
-            <div class="blog-posts-grid" id="latestBlogPosts">
-                <div class="blog-loading">
-                    <div class="loading-spinner"></div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
-    <!-- Gallery Section -->
-    <!-- <section id="exhibition" class="gallery-section">
-        <div class="container">
-            <div class="gallery-header">
-                <a href="artwork.html" class="recent-artwork-link">
-                    <h2 class="gallery-title">Recent Artwork</h2>
-                </a>
-            </div>
-            
-            <div class="gallery-grid">
-                <div class="gallery-item" data-category="lenticular">
-                    <div class="item-image">
-                        <div class="image-placeholder">
-                            <img src="assets/2025 강서청년예술인전_20250913-20250920.png" alt="Lenticular Art #1" srcset="">
-                        </div>
-                    </div>
-                    <div class="item-info">
-                        <h3>2025 강서청년예술인전<br>《구류;예술인의 흐름》</h3>
-                        <p>Lenticular Art × Interactive Media</p>
-                        <span class="date">2025.9.13 (토) - 2025.9.20 (토)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
     <div class="home-modal" id="contactModal" hidden>
         <div class="home-modal-backdrop" data-modal-close></div>
         <div class="home-modal-dialog home-modal-contact" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
@@ -325,15 +284,12 @@
 
     </script>
     
-    <!-- Header Component -->
-    <script src="../scripts/shared/site-header.js"></script>
     <script src="../scripts/shared/site-footer.js"></script>
     
     <script src="../scripts/core/config.js"></script>
     <script src="../scripts/core/auth.js"></script>
     <script src="../scripts/core/utils.js"></script>
     <script src="../scripts/core/sheets.js"></script>
-    <script src="../scripts/pages/home-posts.js"></script>
     <script src="../scripts/pages/home-modals.js"></script>
     <script src="../scripts/shared/floating-actions.js"></script>
 </body>

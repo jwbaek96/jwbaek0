@@ -26,29 +26,6 @@
     --transition: all 0.3s ease;
 }
 
-/* Header styles for blog page */
-body.blog-page header a {
-    color: #0c0c0c;
-}
-
-body.blog-page .mobile-menu-toggle {
-    color: #0c0c0c;
-}
-
-/* Mobile sidebar styles for blog page */
-body.blog-page .mobile-sidebar {
-    background: rgba(238, 238, 238, 0.1);
-}
-
-body.blog-page .mobile-sidebar-nav a{
-    color: #ffffff !important;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.694)
-}
-
-body.blog-page .mobile-sidebar-close {
-    color: #333;
-}
-
 /* Blog specific layout adjustments */
 body.blog-page {
     padding-top: 80px; 
@@ -778,26 +755,6 @@ body {
         --text-primary: #ffffff;
         --text-secondary: #cccccc;
         --border-color: #444444;
-    }
-    
-    body.blog-page header a {
-        color: #ffffff;
-    }
-    
-    body.blog-page .mobile-menu-toggle {
-        color: #ffffff;
-    }
-    
-    body.blog-page .mobile-sidebar {
-        background: rgba(26, 26, 26, 0.95);
-    }
-    
-    body.blog-page .mobile-sidebar-nav a {
-        color: #ffffff;
-    }
-    
-    body.blog-page .mobile-sidebar-close {
-        color: #ffffff;
     }
 }
 

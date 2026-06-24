@@ -1,27 +1,5 @@
 /* Post Detail Page Styles */
 
-/* Header styles for blog page */
-body.post-page header a {
-    color: #0c0c0c;
-}
-
-body.post-page .mobile-menu-toggle {
-    color: #0c0c0c;
-}
-
-/* Mobile sidebar styles for blog page */
-body.post-page .mobile-sidebar {
-    background: rgba(238, 238, 238, 0.1);
-}
-
-body.post-page .mobile-sidebar-nav a {
-    color: #333;
-}
-
-body.post-page .mobile-sidebar-close {
-    color: #333;
-}
-
 /* Blog specific layout adjustments */
 body.post-page {
     padding-top: 80px; 

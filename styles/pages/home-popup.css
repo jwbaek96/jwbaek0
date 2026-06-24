@@ -24,10 +24,9 @@
     /* width: min(960px, 100%); */
     max-height: calc(100vh - 4rem);
     overflow-y: auto;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgb(255, 255, 255);
     color: #111827;
-    border-radius: 24px;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: 0 30px 80px rgba(15, 23, 42, 0.22);
 }
 
@@ -45,6 +44,7 @@
 }
 
 .home-modal-title {
+    display:none;
     margin: 0;
     font-size: clamp(1.75rem, 3vw, 2.75rem);
     line-height: 1.1;
@@ -59,14 +59,10 @@
     height: 42px;
     border: none;
     border-radius: 999px;
-    background: rgba(17, 24, 39, 0.08);
+    background: transparent;
     color: #111827;
     font-size: 1.6rem;
     cursor: pointer;
-}
-
-.home-modal-close:hover {
-    background: rgba(17, 24, 39, 0.14);
 }
 
 .home-modal-body {
@@ -88,9 +84,8 @@
     }
 
     .home-modal-dialog {
-        padding: 1.5rem;
+        padding: 1.25rem;
         max-height: calc(100vh - 2rem);
-        border-radius: 20px;
     }
 
     .home-modal-header {
