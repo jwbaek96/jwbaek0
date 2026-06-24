@@ -33,7 +33,7 @@
 **추가 기능:**
 - 이미지/동영상 업로드
 - 댓글 시스템
-- 아트워크 갤러리 페이지
+- 아트워크 통합 뷰 (blog.html?tags=artwork)
 
 프로젝트 폴더 구조와 주요 파일들을 제안해주세요."
 ```
@@ -76,7 +76,7 @@
 - blog.html (블로그 목록)
 - post.html (개별 포스트)
 - editor.html (포스트 에디터)
-- artwork.html (아트워크 갤러리)
+- artwork.html (blog.html?tags=artwork 리다이렉트)
 "
 ```
 

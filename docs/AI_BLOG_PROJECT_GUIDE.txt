@@ -16,7 +16,7 @@
 1. 블로그 포스트 CRUD (생성/읽기/수정/삭제)
 2. 리치 텍스트 에디터 (이미지/동영상 업로드 포함)
 3. 태그 기반 필터링 시스템
-4. 아트워크 갤러리 페이지
+4. 아트워크 통합 뷰 (blog.html?tags=artwork)
 5. 댓글 시스템
 6. 관리자 인증
 7. 반응형 웹 디자인
@@ -43,13 +43,12 @@ blog1/
 ├── blog.html (블로그 목록)
 ├── post.html (개별 포스트 뷰)
 ├── editor.html (포스트 에디터)
-├── artwork.html (아트워크 갤러리)
+├── artwork.html (통합 뷰로 리다이렉트)
 ├── css/
 │   ├── style.css (공통 스타일)
 │   ├── blog.css (블로그 스타일)
 │   ├── post.css (포스트 뷰 스타일)
 │   ├── editor.css (에디터 스타일)
-│   ├── artwork.css (갤러리 스타일)
 │   └── header.css, footer.css, floating-actions.css
 ├── js/
 │   ├── config.js (설정)
@@ -58,7 +57,6 @@ blog1/
 │   ├── blog.js (블로그 목록)
 │   ├── post.js (포스트 뷰)
 │   ├── editor.js (에디터)
-│   ├── artwork.js (갤러리)
 │   ├── upload.js (파일 업로드)
 │   └── utils.js (유틸리티)
 ├── apps-script/
@@ -415,58 +413,30 @@ Google Sheets CRUD 작업을 처리하는 함수들을 구현해주세요:
 
 ---
 
-## 🎨 6단계: 아트워크 갤러리 페이지
+## 🎨 6단계: 아트워크 통합 뷰 (블로그 태그 필터)
 
-### 갤러리 구현 요청:
+### 통합 뷰 구현 요청:
 
 ```
-Pinterest 스타일의 아트워크 갤러리 페이지를 구현해주세요:
+아트워크를 독립 페이지로 만들지 않고 블로그에 통합해주세요:
 
-**HTML 구조 (artwork.html):**
-- 헤더 네비게이션
-- 태그 필터 섹션
-- 그리드 갤러리 (Masonry 레이아웃)
-- 무한 스크롤 또는 페이지네이션
+**라우팅 구조:**
+- artwork.html / pages/artwork.html 은 blog.html?tags=artwork 로 리다이렉트
+- 실제 렌더링은 blog.html 단일 엔트리에서 처리
 
-**CSS 스타일 (artwork.css):**
-```css
-.artwork-posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.artwork-post-card {
-    aspect-ratio: 4 / 5; /* 4:5 비율 고정 */
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.artwork-post-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-}
-```
-
-**JavaScript (artwork.js):**
-- 'artwork' 태그가 있는 포스트만 필터링
-- 그리드 레이아웃 자동 조정
-- 이미지 지연 로딩
-- 라이트박스 효과
+**CSS/JS 구현 포인트:**
+- blog.css의 grid view에서 artwork 카드 스타일을 재사용
+- blog-page.js에서 tags=artwork 초기값 처리
+- 멀티태그 및 보기모드(view=grid|list|post)와 호환
 
 **반응형 디자인:**
-- Mobile: 2열 그리드
-- Tablet: 3열 그리드
-- Desktop: 4-5열 그리드
+- Mobile: 3열 그리드
+- Tablet: 4열 그리드
+- Desktop: 최대 5열 그리드
 
-**카드 오버레이:**
-- 제목, 날짜, 태그 정보
-- 그라데이션 배경
-- 호버 시 상세 정보 표시
+**데이터/내비게이션:**
+- artwork 진입 시 post.html 이동에 from=artwork, return 파라미터 유지
+- 상세에서 back 시 artwork 필터 상태로 복귀
 
 구체적인 구현 코드를 제공해주세요.
 ```
